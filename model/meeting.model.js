@@ -1,39 +1,44 @@
-const mongoose=require("mongoose");
-const {Schema} =mongoose;
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
-const meeting =mongoose.model(
-    "Meeting",
-    mongoose.Schema({
-        hostId:{
-            type:String,
-            require:true
+const meeting = mongoose.model(
+  "Meeting",
+  mongoose.Schema(
+    {
+      hostId: {
+        type: String,
+        require: true,
+      },
+      hostName: {
+        type: String,
+        require: false,
+      },
+      startTime: {
+        type: Date,
+        require: true,
+      },
+      meetingUsers: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "MeetingUser",
         },
-        hostName:{
-            type:String,
-            require:false 
-        },
-        startTime:{
-            type:Date,
-            require:true
-        },
-        meetingUsers:[{
-            type:mongoose.Schema.Types.ObjectId,
-            ref:"MeetingUser"
-        }]
-    },{
-        toJson:{
-            transform:function(doc,ret){
-                ret.id=ret._id.toString(),
-                delete ret._id;
-                delete ret.__v;
-            }
-        }
+      ],
     },
     {
-        timestamps:true
-    })
+      toJSON: {
+        transform: function (doc, ret) {
+          ret.id = ret._id.toString(), 
+          delete ret._id;
+          delete ret.__v;
+        },
+      },
+    },
+    {
+      timestamps: true,
+    }
+  )
 );
 
-module.exports={
-    meeting
+module.exports = {
+  meeting
 }

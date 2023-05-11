@@ -31,8 +31,7 @@ function handleMessage(meetingId, socket, message, meetingServer) {
       meetingHelper.forwardConnectionRequest(
         meetingId,
         socket,
-        
-        meetingServer,
+meetingServer,
         payload
       );
       break;

@@ -1,4 +1,3 @@
-const { Promise, model } = require("mongoose");
 const meetingServices=require("../services/meeting.service");
 const {MeetingPayloadEnum}=require ("../utils/meeting-payload.enum");
 
@@ -134,13 +133,14 @@ function endMeeting(meetingId,socket,meetingServer,payload){
     const {userId}=payload.data;
 
     broadcastUsers(meetingId,socket,meetingServer,{
-        type:MeetingPayloadEnum.END_MEETING,
+        type:MeetingPayloadEnum.MEETING_ENDED,
         data:{
             userId:userId
         }
     });
-    meetingServices.getAllMeetingUsers(meetingId,(error,results)=>{
-        for(let i=0;i<results.length;i++){
+
+    meetingServices.getAllMeetingUser(meetingId,(error,results)=>{
+        for(let i=0; i<results.length; i++){
             const meetingUser=results[i];
             meetingServer.sockets.connected[meetingUser.socketId].disconnect();
         }
@@ -161,8 +161,9 @@ function forwardEvent (meetingId,socket,meetingServer,payload){
 }
 
 function addUser(socket,{meetingId,userId,name}){
-    let Promise=new Promise(function(resolve,reject){
-        meetingServices.getMeetingUser({meetingId,userId},(error,results)=>{
+
+    let promise = new Promise(function(resolve,reject){
+        meetingServices.getMeetingUser({meetingId,userId},(error,results)=>{ 
             if(!results){
                 var model={
                     socketId:socket.id,
@@ -179,7 +180,7 @@ function addUser(socket,{meetingId,userId,name}){
                     }
 
                     if(error){
-                        reject(error);
+                        reject(error); 
                     }
                 });
             }
@@ -195,9 +196,9 @@ function addUser(socket,{meetingId,userId,name}){
                     if(error){
                         reject(error);
                     }
-                })
+                });
             }
-        })
+        });
     })
     return promise;
 }

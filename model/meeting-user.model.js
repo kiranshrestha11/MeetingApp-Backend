@@ -6,8 +6,7 @@ const meetingUser =mongoose.model(
     mongoose.Schema({
         socketId:{
             type:String,
-            
-        },
+            },
         meetingId:{
             type:mongoose.Schema.Types.ObjectId,
             ref:"Meeting" 

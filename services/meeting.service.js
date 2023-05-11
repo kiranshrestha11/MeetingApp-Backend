@@ -18,7 +18,7 @@ async function startMeeting(params, callBack) {
   meetingSchema
     .save()
     .then((response) => {
-      return callBack(null.response);
+      return callBack(null,response);
     })
     .catch((error) => {
       return callBack(error);
@@ -57,7 +57,7 @@ async function isMeetingPresent(meetingId, callBack) {
 
 async function checkMeetingExists(meetingId, callBack) {
   meeting
-    .findById(meetingId, "hostId,hostName,startTime")
+    .findById(meetingId)
     .populate("meetingUsers", "MeetingUser")
     .then((response) => {
       if (!response) callBack("Invalid Meeting Id");

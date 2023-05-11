@@ -20,7 +20,7 @@ exports.startMeeting=(req,res,next)=>{
 }
 
 exports.checkMeetingExists = (req, res, next)=>{
-    const  {meeting} = req.query;
+    const  {meetingId} = req.query;
 
     meetingServices.checkMeetingExists(meetingId,(error,results)=>{
         if(error){
@@ -34,7 +34,7 @@ exports.checkMeetingExists = (req, res, next)=>{
 }
 
 exports.getAllMeetingUsers=(req,res,next)=>{
-    const {meeting}=req.query;
+    const {meetingId}=req.query;
     meetingServices.getAllMeetingUser(meetingId,(error,results)=>{
         if(error){
             return next(error);
